@@ -1,9 +1,11 @@
 import { Router } from "express";
 import dotenv from "dotenv";
-import z, { jwt } from "zod"
+import z from "zod"
+import jwt from "jsonwebtoken";
 import { UserModel } from "../db.js";
 import bcrypt from "bcrypt";
 import { userMiddleware } from "../middleware.js";
+
 
 dotenv.config({ path: "../.env" })
 
@@ -64,7 +66,7 @@ userRouter.post('/api/v1/signup', async (req, res) => {
     }
 });
 
-userRouter.post('/api/v1/signin', userMiddleware, async (req, res) => {
+userRouter.post('/api/v1/signin', async (req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -80,9 +82,13 @@ userRouter.post('/api/v1/signin', userMiddleware, async (req, res) => {
 
         const passwordCompare = await bcrypt.compare(password, user.password);
 
-        if (passwordCompare) {
-            const authHeader = jwt.sign({ id: user._id.toString() }, process.env.JWT_USER_SECRET);
+        const secret = process.env.JWT_USER_SECRET;
 
+        if (!secret) {
+            throw new Error("JWT_USER_SECRET environment variable is not defined");
+        }
+        if (passwordCompare) {
+            const authHeader = jwt.sign({ id: user._id.toString() }, secret);
             res.json({
                 token: authHeader
             })

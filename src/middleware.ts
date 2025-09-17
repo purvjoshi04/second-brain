@@ -2,9 +2,14 @@ import type { Request, Response, NextFunction } from "express";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
 
-dotenv.config({ path:  "../.env" });
+dotenv.config({ path: "../.env" });
 
-export function userMiddleware(req: Request, res: Response, next: NextFunction) {
+interface AuthenticatedRequest extends Request {
+    userId?: string;
+}
+
+
+export function userMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     const authHeader = req.headers["authorization"];
 
     if (!authHeader) {
