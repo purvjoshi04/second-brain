@@ -4,12 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: "../.env" });
 
-interface AuthenticatedRequest extends Request {
-    userId?: string;
-}
-
-
-export function userMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export function userMiddleware(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers["authorization"];
 
     if (!authHeader) {
