@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { userRouter } from "./routes/routes.js";
+import { userRouter } from "./routes/routes.js"
 
 dotenv.config({path:"./.env"})
 
@@ -23,4 +23,4 @@ try {
 }
 
 
-app.listen(3000)
+app.listen(3001)

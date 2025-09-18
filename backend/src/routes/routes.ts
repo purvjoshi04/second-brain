@@ -1,8 +1,8 @@
 import { Router } from "express";
-import dotenv from "dotenv";
+import dotenv, { populate } from "dotenv";
 import z from "zod"
 import jwt from "jsonwebtoken";
-import { UserModel } from "../db.js";
+import { ContentModel, UserModel } from "../db.js";
 import bcrypt from "bcrypt";
 import { userMiddleware } from "../middleware.js";
 
@@ -104,12 +104,40 @@ userRouter.post('/api/v1/signin', async (req, res) => {
     }
 })
 
-userRouter.get('/api/v1/content', (req, res) => {
+userRouter.post('/api/v1/content', userMiddleware, async (req, res) => {
+    const { link, type, title } = req.body;
 
+    await ContentModel.create({
+        link,
+        type,
+        title,
+        userId: req.userId,
+        tags: []
+    })
+
+    res.json({
+        message: "Conetent Added"
+    })
 })
 
-userRouter.delete('/api/v1/content', (req, res) => {
+userRouter.get('/api/v1/content', userMiddleware, async (req, res) => {
+    const userId = req.userId;
+    const content = await ContentModel.find({
+        userId: userId
+    }).populate("userId", "username")
 
+    res.json({
+        content
+    });
+})
+
+userRouter.delete('/api/v1/content', userMiddleware, async (req, res) => {
+    const contentId = req.body.contentId;
+    
+    await ContentModel.deleteMany({
+        userId: req.userId,
+        contentId
+    });
 })
 
 userRouter.post('/api/v1/brain/share', (req, res) => {
