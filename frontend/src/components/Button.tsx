@@ -14,7 +14,7 @@ const variantstyles = {
     "secondary": "bg-[#5046e4] text-[#5046e4}"
 }
 
-const defaultStyles= "rounded-md p-4"
+const defaultStyles = "rounded-md p-4 flex"
 
 const sizeStyles = {
     "sm": "p-2",
@@ -24,5 +24,5 @@ const sizeStyles = {
 
 
 export const Button = (props: ButtonProps) => {
-    return <button className={`${variantstyles[props.variant]} ${defaultStyles} ${sizeStyles[props.size]}`}>{props.text}</button>
+    return <button className={`${variantstyles[props.variant]} ${defaultStyles} ${sizeStyles[props.size]}`}>{props.startIcon ? <div className="pr-2">{props.startIcon}</div> : null} {props.text} {props.endIcon}</button>
 } 
