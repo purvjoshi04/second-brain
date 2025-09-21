@@ -2,10 +2,10 @@ import { Router } from "express";
 import dotenv, { populate } from "dotenv";
 import z from "zod"
 import jwt from "jsonwebtoken";
-import { ContentModel, UserModel } from "../db.js";
+import { ContentModel, UserModel, LinkModel } from "../db.js";
 import bcrypt from "bcrypt";
 import { userMiddleware } from "../middleware.js";
-
+import { randomHash } from "../utils.js";
 
 dotenv.config({ path: "../.env" })
 
@@ -88,7 +88,7 @@ userRouter.post('/api/v1/signin', async (req, res) => {
             throw new Error("JWT_USER_SECRET environment variable is not defined");
         }
         if (passwordCompare) {
-            const authHeader = jwt.sign({ id: user._id.toString() }, secret);
+            const authHeader = jwt.sign({ id: user._id.toString() }, secret, { expiresIn: "24h" });
             res.json({
                 token: authHeader
             })
@@ -133,19 +133,77 @@ userRouter.get('/api/v1/content', userMiddleware, async (req, res) => {
 
 userRouter.delete('/api/v1/content', userMiddleware, async (req, res) => {
     const contentId = req.body.contentId;
-    
+
     await ContentModel.deleteMany({
         userId: req.userId,
         contentId
     });
 })
 
-userRouter.post('/api/v1/brain/share', (req, res) => {
+userRouter.post('/api/v1/brain/share', userMiddleware, async (req, res) => {
+    const share = req.body.share;
+    if (share) {
+        const existingLink = await LinkModel.findOne({
+            userId: req.userId
+        });
 
+        if (existingLink) {
+            res.json({
+                hash: existingLink.hash
+            })
+            return;
+        }
+        const hash = randomHash(10);
+        await LinkModel.create({
+            userId: req.userId,
+            hash: hash
+        })
+
+        res.json({
+            hash
+        })
+    } else {
+        await LinkModel.deleteOne({
+            userId: req.userId
+        });
+
+        res.json({
+            message: "Removed link"
+        })
+    }
 })
 
-userRouter.get('/api/v1/brain/:shareLink', (req, res) => {
+userRouter.get('/api/v1/brain/:shareLink', async (req, res) => {
+    const hash = req.params.shareLink;
+    const link = await LinkModel.findOne({
+        hash
+    });
 
+    if (!link) {
+        res.status(411).json({
+            message: "Sorry incorrect input"
+        })
+        return;
+    }
+    const content = await ContentModel.find({
+        userId: link.userId
+    })
+
+    const user = await UserModel.findOne({
+        _id: link.userId
+    })
+
+    if (!user) {
+        res.status(411).json({
+            message: "user not found, error should ideally not happen"
+        })
+        return;
+    }
+
+    res.json({
+        username: user.username,
+        content: content
+    })
 })
 
 
