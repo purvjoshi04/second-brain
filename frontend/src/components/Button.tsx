@@ -10,8 +10,8 @@ interface ButtonProps {
 }
 
 const variantstyles = {
-    "primary": "bg-[#e0e7fe] text-white",
-    "secondary": "bg-[#5046e4] text-[#5046e4}"
+    "primary": "bg-[#e0e7fe] text-[#5046e4]",
+    "secondary": "bg-[#5046e4] text-white"
 }
 
 
@@ -25,14 +25,11 @@ const sizeStyles = {
 export const Button = (props: ButtonProps) => {
     return (
     <button className={`${variantstyles[props.variant]} ${sizeStyles[props.size]}`}>
-        <div className="flex items-center">
+        <div className="flex items-center font-[400] p-0">
         {props.startIcon ? <div className="pr-2">{props.startIcon}</div> : null} 
-        <div className="pl-2 pr-2">
         {props.text}
         </div>
         {props.endIcon}
-        </div>
         </button>
-
     )
 } 
