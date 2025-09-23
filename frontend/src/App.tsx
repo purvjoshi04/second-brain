@@ -1,3 +1,4 @@
+// App.tsx
 import { Button } from './components/Button'
 import { Card } from './components/Card'
 import { PlusIcon } from './icons/PlusIcon'
@@ -5,11 +6,23 @@ import { ShareIcon } from './icons/ShareIcon'
 
 function App() {
   return (
-    <div>
-      <Button  startIcon={<ShareIcon size='md' />} size="md" variant='primary' text='Share Brain'/>
-      <Button startIcon={<PlusIcon size='md'/>} size="md" variant='secondary' text='Add content'/>
-      <Card title={"Projects Ideas"} type={"twitter"} link={'<blockquote class="twitter-tweet"><a href="https://twitter.com/kirat_tw/status/1875218603966136424?ref_src=twsrc%5Etfw"></a></blockquote>'}/>
-      <Card title={"Projects Ideas"} type={"twitter"} link={'<iframe width="560" height="315" src="https://www.youtube.com/embed/Lv8BD8xefJs?si=ERFkAR0FCSaJk-Ed" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'}/>
+    <div className='p-4'>
+      <div className='flex justify-end gap-4 mb-6'>
+        <Button startIcon={<ShareIcon />} variant='secondary' text='Share Brain' onClick={() => console.log('Share clicked')} />
+        <Button startIcon={<PlusIcon />} variant='primary' text='Add content' onClick={() => console.log('Add clicked')} />
+      </div>
+      <div className='flex gap-4 flex-wrap'>
+        <Card 
+          title="Project Ideas" 
+          type="twitter" 
+          link="https://twitter.com/kirat_tw/status/1875218603966136424" 
+        />
+        <Card 
+          title="Tutorial Video" 
+          type="youtube" 
+          link="https://www.youtube.com/watch?v=Lv8BD8xefJs" 
+        />
+      </div>
     </div>
   )
 }
