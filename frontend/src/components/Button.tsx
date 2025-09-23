@@ -3,15 +3,15 @@ import type { ReactElement } from "react";
 interface ButtonProps {
     variant: "primary" | "secondary";
     text: string;
-    startIcon: ReactElement
+    startIcon?: ReactElement
     onClick?: () => void;
     fullWidth?: boolean;
     loading?: boolean;
 }
 
 const variantClasses = {
-    "primary": "bg-purple-600 text-white",
-    "secondary": "bg-purple-200 text-purple-600",
+    "primary": "bg-[#7164c0] text-white",
+    "secondary": "bg-[#d9ddee] text-purple-600",
 };
 
 const defaultStyles = "px-4 py-2 rounded-md font-light flex items-center cursor-pointer";

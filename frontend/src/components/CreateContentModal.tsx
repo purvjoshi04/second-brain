@@ -23,7 +23,7 @@ export const CreateContentModal = (props: CreateContentModalProps) => {
                             <InputBox placeholder={"Link"}/>
                         </div>
                         <div className="flex justify-center p-2">
-                        <Button variant={"primary"} text={"Submit"} />
+                        <Button variant={"primary"} text={"Submit"}/>
                         </div>
                     </span>
                 </div>
