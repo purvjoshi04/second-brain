@@ -1,9 +1,11 @@
-// App.tsx
-import { Dashboard } from './pages/Dashboard'
+import { BrowserRouter } from "react-router-dom"
+import { AppRoutes } from "./routes/AppRoutes"
 
 function App() {
   return (
-    <Dashboard />
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   )
 }
 

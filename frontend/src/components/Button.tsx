@@ -18,7 +18,11 @@ const defaultStyles = "px-4 py-2 rounded-md font-light flex items-center cursor-
 
 
 export function Button(props: ButtonProps) {
-    return <button onClick={props.onClick} className={`${variantClasses[props.variant]} ${defaultStyles} ${props.fullWidth ? " w-full flex justify-center items-center" : ""} ${props.loading ? "opacity-45	" : ""}`} disabled={props.loading}>
+    return <button
+        className={`${variantClasses[props.variant]} ${defaultStyles} ${props.fullWidth ? " w-full flex justify-center items-center" : ""} ${props.loading ? "opacity-45 cursor-none" : ""}`}
+        onClick={props.onClick}
+        disabled={props.loading}
+    >
         <div className="pr-2">
             {props.startIcon}
         </div>
