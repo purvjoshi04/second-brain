@@ -1,11 +1,12 @@
-import { DocumentIcon } from "../icons/DocumentIcons";
 import { ShareIcon } from "../icons/ShareIcon";
 import { TrashIcon } from "../icons/TrashIcon";
+import { XIcon } from "../icons/XIcon";
+import { YouTubeIcon } from "../icons/YoutubeIcon";
 
 interface CardProps {
     title: string;
     link: string;
-    type: "twitter" | "youtube";
+    type: "X" | "youtube" | "twitter";
 }
 
 export function Card(props: CardProps) {
@@ -14,7 +15,7 @@ export function Card(props: CardProps) {
             <div className="flex justify-between">
                 <div className="flex items-center text-md">
                     <div className="text-gray-500 pr-2">
-                        <DocumentIcon />
+                        {props.type === "youtube" ? <YouTubeIcon/> : <XIcon/>}
                     </div>
                     {props.title}
                 </div>
@@ -33,7 +34,7 @@ export function Card(props: CardProps) {
             <div className="pt-4">
                 {props.type === "youtube" && <iframe className="w-full" src={props.link.replace("watch", "embed").replace("?v=", "/")} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>}
 
-                {props.type === "twitter" && <blockquote className="twitter-tweet">
+                {props.type === "X" && <blockquote className="twitter-tweet">
                     <a href={props.link.replace("x.com", "twitter.com")}></a> 
                 </blockquote>}
             </div>
