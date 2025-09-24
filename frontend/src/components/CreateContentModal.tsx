@@ -10,7 +10,6 @@ enum ContentType {
     X = "X"
 }
 
-
 interface CreateContentModalProps {
     open: boolean,
     onClose: () => void,
