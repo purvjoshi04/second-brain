@@ -1,8 +1,7 @@
 import { XIcon } from "../icons/XIcon"
 import { YouTubeIcon } from "../icons/YoutubeIcon"
 import { SidebarItems } from "./SidebarItems"
-import brainIcon from "../assets/brain.svg"
-
+import brainIcon from "../assets/brain.svg";
 
 const sidebarItems = [
     {

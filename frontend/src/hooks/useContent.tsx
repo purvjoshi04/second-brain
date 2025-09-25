@@ -2,8 +2,17 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../config";
 
+interface Content {
+    _id: string;
+    userId: string;
+    title: string;
+    link: string;
+    type: string;
+    tags?: string[]
+}
+
 export const useContents = () => {
-    const [contents, setContents] = useState([]);
+    const [contents, setContents] = useState<Content []>([]);
 
     const fetchContents = async () => {
         try {

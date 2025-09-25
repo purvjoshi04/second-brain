@@ -8,7 +8,7 @@ import { BACKEND_URL } from "../config";
 interface CardProps {
     title: string;
     link: string;
-    type: "X" | "youtube";
+    type: string
     id: string;
     onDelete?: () => void;
 }
