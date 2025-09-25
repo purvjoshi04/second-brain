@@ -48,7 +48,6 @@ export const CreateContentModal = (props: CreateContentModalProps) => {
             });
             props.onContentAdded();
             props.onClose();
-
             if (titleRef.current) titleRef.current.value = '';
             if (linkRef.current) linkRef.current.value = '';
             window.location.reload();

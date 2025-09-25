@@ -12,7 +12,6 @@ export const useContents = () => {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             });
-            console.log("API Response:", response.data);
             setContents(response.data.content);
         } catch (error) {
             console.error("Failed to fetch contents:", error);
