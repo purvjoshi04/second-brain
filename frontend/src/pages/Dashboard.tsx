@@ -21,21 +21,27 @@ export const Dashboard = () => {
                 </div>
                 <div className='flex gap-4 flex-wrap'>
                     <Card
+                        id="test_1"
                         title="Project Ideas"
                         type="X"
                         link="https://twitter.com/kirat_tw/status/1875218603966136424"
                     />
                     <Card
+                        id="test_2"
                         title="Tutorial Video"
                         type="youtube"
                         link="https://www.youtube.com/watch?v=Lv8BD8xefJs"
                     />
-                    {contents.map(({ title, link, type }) => <Card
-                        key={link}
-                        title={title}
-                        type={type}
-                        link={link}
-                    />)}
+                    {contents.map((content) => (
+                        <Card
+                            key={content._id}
+                            id={content._id}
+                            title={content.title}
+                            type={content.type}
+                            link={content.link}
+                            onDelete={refetch}
+                        />
+                    ))}
                 </div>
             </div>
         </div>

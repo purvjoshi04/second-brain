@@ -134,9 +134,9 @@ userRouter.get('/api/v1/content', userMiddleware, async (req, res) => {
 userRouter.delete('/api/v1/content', userMiddleware, async (req, res) => {
     const contentId = req.body.contentId;
 
-    await ContentModel.deleteMany({
+    await ContentModel.deleteOne({
         userId: req.userId,
-        contentId
+        _id: contentId
     });
 })
 

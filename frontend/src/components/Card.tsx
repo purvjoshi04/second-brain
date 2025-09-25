@@ -1,15 +1,38 @@
+import axios from "axios";
 import { ShareIcon } from "../icons/ShareIcon";
 import { TrashIcon } from "../icons/TrashIcon";
 import { XIcon } from "../icons/XIcon";
 import { YouTubeIcon } from "../icons/YoutubeIcon";
+import { BACKEND_URL } from "../config";
 
 interface CardProps {
     title: string;
     link: string;
-    type: "X" | "youtube" | "twitter";
+    type: "X" | "youtube";
+    id: string;
+    onDelete?: () => void;
 }
 
 export function Card(props: CardProps) {
+
+    const removeContent = async () => {
+    try {
+        await axios.delete(`${BACKEND_URL}/api/v1/content`, {
+            data: { contentId: props.id }, // Send the content ID
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        
+        // Refresh the content list
+        if (props.onDelete) {
+            props.onDelete();
+        }
+    } catch (error) {
+        console.error("Failed to delete content:", error);
+        alert("Failed to delete content");
+    }
+}
     return <div>
         <div className="p-4 bg-white rounded-md border-gray-200 max-w-72  border min-h-48 min-w-72">
             <div className="flex justify-between">
@@ -26,7 +49,7 @@ export function Card(props: CardProps) {
                         </a>
                     </div>
                     <div className="text-gray-500">
-                        <TrashIcon />
+                        <TrashIcon onClick={removeContent}/>
                     </div>
                 </div>
             </div>
