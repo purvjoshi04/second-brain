@@ -51,6 +51,7 @@ export const CreateContentModal = (props: CreateContentModalProps) => {
 
             if (titleRef.current) titleRef.current.value = '';
             if (linkRef.current) linkRef.current.value = '';
+            window.location.reload();
         } catch (error) {
             console.error("Adding content failed:", error);
             alert("Adding content failed. Please try again.");

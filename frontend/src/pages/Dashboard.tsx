@@ -6,17 +6,32 @@ import { PlusIcon } from '../icons/PlusIcon'
 import { ShareIcon } from '../icons/ShareIcon'
 import { Sidebar } from '../components/Sidebar'
 import { useContents } from '../hooks/useContent'
+import axios from 'axios'
+import { BACKEND_URL, VITE_BRAIN_SHARE_URL } from '../config'
 
 export const Dashboard = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const { contents, refetch } = useContents();
+
+    const shareBrain = async () => {
+        const response = await axios.post(`${BACKEND_URL}/api/v1/brain/share`, {
+            share: true
+        }, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        }) ;
+        const shareUrl = `${VITE_BRAIN_SHARE_URL}/${response.data.hash}`
+        await navigator.clipboard.writeText(shareUrl);
+    }
+
     return (
         <div>
             <Sidebar />
             <div className='p-4 ml-72 min-h-screen bg-[#eeeeef]'>
                 <CreateContentModal open={modalOpen} onClose={() => setModalOpen(false)} onContentAdded={refetch} />
                 <div className='flex justify-end gap-4 mb-6'>
-                    <Button startIcon={<ShareIcon />} variant='secondary' text='Share Brain' onClick={() => console.log('Share clicked')} />
+                    <Button startIcon={<ShareIcon />} variant='secondary' text='Share Brain' onClick={shareBrain} />
                     <Button startIcon={<PlusIcon />} variant='primary' text='Add content' onClick={() => setModalOpen(true)} />
                 </div>
                 <div className='flex gap-4 flex-wrap'>
